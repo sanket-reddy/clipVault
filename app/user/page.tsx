@@ -4,14 +4,10 @@ import axios from "axios";
 import Image from "next/image";
 import {  useState } from "react";
 import { useAuth,useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
 export default function Page(){
-    // const { userId  , sessionId , getToken }  = useAuth();
     const {isLoaded , isSignedIn, user} = useUser();
-    
-    // console.log("userId : ",userId);
-    // console.log("sessionId : ",sessionId)
-    // console.log("getToken", getToken);
     console.log("isloading : ",isLoaded);
     console.log("isSignedIn : ",isSignedIn)
     
@@ -79,7 +75,8 @@ export default function Page(){
          className="  text-black"
         ></input>
         <br></br>
-         <button onClick={handleSubmit}>Send</button>
+         {/* <button onClick={handleSubmit}>Send</button> */}
+         <Button className = "mx-0 bg-zinc-700 p-3 w-[80px] rounded-full hover:bg-zinc-800 mt-3" onClick={handleSubmit}>Send</Button>
         </main>
     </div>
 }

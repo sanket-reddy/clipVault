@@ -25,7 +25,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   async function putObject(fileName: string, ContentType: string) {
     const params = {
       Bucket: "clipvaulttemp",
-      Key: userId + fileName,
+      Key: userId +"/" + fileName,
       ContentType,
     };
     const url = await getSignedUrl(client, new PutObjectCommand(params));
