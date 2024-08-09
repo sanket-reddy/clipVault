@@ -61,14 +61,12 @@ export default function Page() {
     return (
     <div>
         <h1>React Server Componet  : Upload</h1>
-        <form action={upload}>
+        <form action={upload} >
+           
             <input type = "file" name = "file"></input>
             <input type = "text" name = "fileName"></input>
             <input type = "text" name = "ContentType"></input>
-
-
             <input type = "submit" name = "Upload"></input>
-
         </form>
     </div>
   );

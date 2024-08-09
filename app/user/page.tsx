@@ -1,82 +1,46 @@
-"use client"
-import Navbar from "@/components/ui/navbar";
-import axios from "axios";
-import Image from "next/image";
-import {  useState } from "react";
-import { useAuth,useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { auth } from "@clerk/nextjs/server";
 
-export default function Page(){
-    const {isLoaded , isSignedIn, user} = useUser();
-    console.log("isloading : ",isLoaded);
-    console.log("isSignedIn : ",isSignedIn)
-    
+export default function Page() {
+  const { userId } = auth();
+  async function fetchFiles() {
+    "use server";
+    console.log("called")
+    if (userId) {
+      const client = new S3Client({
+        region: "ap-southeast-2",
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
+          secretAccessKey: process.env.AWS_SECRET_aCCESS_KEY ?? "",
+        },
+      });
 
-    const [file,setFile] = useState<File | undefined>(undefined);
-    const [fileUrl, setFileUrl] = useState<string>("");
-    const [fileName, setFileName] = useState<string>("");
-    const [contentType,setContentType] = useState<string>("");
-    const fileAdd = (e : React.ChangeEvent<HTMLInputElement>)=>{
-        const file = e.target.files?.[0]
-        setFile(file);
-        if(file){
-            let url : string = URL.createObjectURL(file);
-            setFileUrl(url);
-        }
+      const params = {
+        Bucket: "clipvaulttemp",
+        Key: userId,
+      };
+      try {
+        const url = await getSignedUrl(client, new GetObjectCommand(params));
+        console.log("url : ", url);
+      } catch (error) {
+        console.log("an error has occured here : ", error);
+      }
     }
-    const handleSubmit = async ()=>{
-        if(!user){
-            alert("please login !!!");
-        }
-        else{
-        if(!file)return null;
-        const formData = new FormData();
-        formData.append("userId",user.id);
-        formData.append("file",file);
-        formData.append("fileName",fileName)
-        formData.append("contentType",contentType);
-        let resp =await axios.post("/api/uploadS3",formData);
-        let url = resp.data.url;
-        try{
-            let resp2 = await axios.put(url, file, {
-                headers: {
-                  "Content-Type": "application/octet-stream",
-                },
-              });
-            console.log(resp2.data);
-        }
-        catch(error){
-            console.log("an error has occured here : ",error);
-        }
+    else{
+        alert("something went wrong")
     }
-    }
-    
-    return <div className="mx-4">
-        <Navbar></Navbar>
-        <main>
-         <input type="file" onChange={fileAdd} name = "file" ></input>
-         {file && fileUrl ? (<Image src = {fileUrl} alt= "file" width = {200} height={200}></Image>) : (
-            <h1>No image</h1>
-         )}
-        <input
-        onChange={(e)=>{
-            setFileName(e.target.value);
-        }}
-        placeholder="fileName"
-         className=" text-black"
-        ></input>
-        <br></br>
-        <br></br>
-        <input
-        placeholder="content-type"
-        onChange={(e)=>{
-            setContentType(e.target.value);
-        }}
-         className="  text-black"
-        ></input>
-        <br></br>
-         {/* <button onClick={handleSubmit}>Send</button> */}
-         <Button className = "mx-0 bg-zinc-700 p-3 w-[80px] rounded-full hover:bg-zinc-800 mt-3" onClick={handleSubmit}>Send</Button>
-        </main>
+  }
+
+  return (
+    <div>
+      <h1>{userId}</h1>
+      <form action={fetchFiles}>
+        <Button type="submit">send</Button>
+        <input type = "submit" name = "Upload"></input>
+
+      </form>
     </div>
+  );
 }

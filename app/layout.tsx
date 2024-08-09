@@ -19,7 +19,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={poppins.className }>
-          <div className="bg-black text-white min-h-screen">{children}</div>
+          <div className="bg-black text-white min-h-screen ">{children}</div>
         </body>
       </html>
     </ClerkProvider>

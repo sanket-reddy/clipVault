@@ -25,9 +25,8 @@ export default function Home() {
         <div className="w-full flex flex-col items-center justify-center">
         <TypeAnimation
           sequence={[
-            // Same substring at the start will only be typed out once, initially
             "Connect Inspire Share !!!",
-            1000, // wait 1s before replacing "Mice" with "Hamsters"
+            1000, 
             "More than a site, it's a community",
             1000,
             "Turn moments into masterpieces",

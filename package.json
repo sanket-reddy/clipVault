@@ -28,6 +28,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-type-animation": "^3.2.0",
+    "svix": "^1.28.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "typewriter-effect": "^2.21.0"
