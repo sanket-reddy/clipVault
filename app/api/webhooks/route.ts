@@ -1,6 +1,10 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
+import {PrismaClient} from "@prisma/client"
+
+const prisma = new PrismaClient();
+
 
 export async function POST(req: Request) {
 
@@ -31,6 +35,11 @@ export async function POST(req: Request) {
     // Create a new Svix instance with your secret.
     const wh = new Webhook(WEBHOOK_SECRET);
 
+
+
+
+
+
     let evt: WebhookEvent
 
     // Verify the payload with the headers
@@ -54,7 +63,26 @@ export async function POST(req: Request) {
     // console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
     // console.log('Webhook body:', body)
     if (evt.type === 'user.created') {
-        console.log('userId:', evt.data.id)
+
+    try{
+        if (evt.data.id && evt.data.username && evt.data.first_name && evt.data.first_name.length > 0) {
+            const newUser  = await prisma.user.create({data : {
+                    userId : evt.data.id,
+                    username : evt.data.username,
+                    firstName : evt.data.first_name,
+
+                }})
+            if(newUser){
+                console.log("new user created", newUser)
+            }
+            else{
+                console.log("something went wrong here ")
+            }
+        }
+    }catch(error){
+        console.log("an error has occured here : ",error);
+    }
+
     }
     return new Response('', { status: 200 })
 }
