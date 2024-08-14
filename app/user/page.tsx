@@ -2,12 +2,11 @@ import { Button } from "@/components/ui/button";
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { auth } from "@clerk/nextjs/server";
-
+import AWS from "aws-sdk";
 export default function Page() {
   const { userId } = auth();
   async function fetchFiles() {
     "use server";
-    console.log("called")
     if (userId) {
       const client = new S3Client({
         region: "ap-southeast-2",
@@ -16,6 +15,11 @@ export default function Page() {
           secretAccessKey: process.env.AWS_SECRET_aCCESS_KEY ?? "",
         },
       });
+      const s3 = new AWS.S3({
+        accessKeyId : process.env.AWS_ACCESS_KEY_ID ,
+        secretAccessKey: process.env.AWS_SECRET_aCCESS_KEY ,
+        region : "ap-southeast-2",
+      })
 
       const params = {
         Bucket: "clipvaulttemp",
@@ -35,7 +39,7 @@ export default function Page() {
 
   return (
     <div>
-      <h1>{userId}</h1>
+      <h1> userid : {userId}</h1>
       <form action={fetchFiles}>
         <Button type="submit">send</Button>
         <input type = "submit" name = "Upload"></input>

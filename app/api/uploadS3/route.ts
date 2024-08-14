@@ -1,6 +1,11 @@
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { NextResponse, NextRequest } from "next/server";
+import {PrismaClient} from "@prisma/client"
+
+const prisma  = new PrismaClient()
+
+
 export async function POST(req: NextRequest, res: NextResponse) {
   const data = await req.formData();
   const file: File | undefined = data.get("file") as unknown as File;
@@ -34,6 +39,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   let url = await putObject(fileName, ContentType);
   if (url) {
+
+
     return NextResponse.json({
       message: "the url is recieved ",
       url,

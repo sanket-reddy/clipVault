@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
-
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.621.0",
@@ -21,6 +20,7 @@
     "@tsparticles/engine": "^3.5.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
+    "aws-sdk": "^2.1672.0",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -31,6 +31,7 @@
     "prisma": "^5.18.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.2.1",
     "react-type-animation": "^3.2.0",
     "svix": "^1.28.0",
     "tailwind-merge": "^2.4.0",

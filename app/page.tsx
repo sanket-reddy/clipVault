@@ -4,8 +4,13 @@ import Navbar from "@/components/ui/navbar";
 import { SparklesCore } from "@/components/ui/sparkles";
 import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
+import { useUser } from "@clerk/nextjs";
 
 export default function Home() {
+    const {user} = useUser();
+    if(user){
+        console.log("user id",user.id);
+    }
   return (
     <div className=" relative w-full min-h-screen  flex flex-cols overflow-hidden rounded-md">
       <div className="w-full absolute inset-0 ">
@@ -21,7 +26,7 @@ export default function Home() {
         />
       </div>
       <div className="z-10 w-full mx-5 pt-5 ">
-        <Navbar />
+        <Navbar userId={ user ? user.id : null } />
         <div className="w-full flex flex-col items-center justify-center">
         <TypeAnimation
           sequence={[
