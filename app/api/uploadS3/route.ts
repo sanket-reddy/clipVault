@@ -1,17 +1,16 @@
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { NextResponse, NextRequest } from "next/server";
-import {PrismaClient} from "@prisma/client"
+import { PrismaClient } from "@prisma/client";
 
-const prisma  = new PrismaClient()
-
+const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const data = await req.formData();
   const file: File | undefined = data.get("file") as unknown as File;
-  const fileName: string = data.get("fileName")  as string;
-  const ContentType: string = data.get("contentType")as  string;
-  const userId : string = data.get("userId")as string;
+  const fileName: string = data.get("fileName") as string;
+  const ContentType: string = data.get("contentType") as string;
+  const userId: string = data.get("userId") as string;
   if (!file) {
     return NextResponse.json({
       message: "no file found",
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   async function putObject(fileName: string, ContentType: string) {
     const params = {
       Bucket: "clipvaulttemp",
-      Key: userId +"/" + fileName,
+      Key: userId + "/" + fileName,
       ContentType,
     };
     const url = await getSignedUrl(client, new PutObjectCommand(params));
@@ -39,8 +38,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   let url = await putObject(fileName, ContentType);
   if (url) {
-
-
     return NextResponse.json({
       message: "the url is recieved ",
       url,

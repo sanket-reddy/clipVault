@@ -1,5 +1,4 @@
 "use client"
-import Navbar from "@/components/ui/navbar";
 import axios from "axios";
 import Image from "next/image";
 import {  useState } from "react";
@@ -46,6 +45,14 @@ export default function Page(){
                 },
               });
             console.log(resp2.data);
+            resp2 = await axios.post("/api/saveFileDB",{
+                fileName,
+                userClerkId : user.id,
+                contentType,
+            })
+            console.log(resp2.data);
+
+        
         }
         catch(error){
             console.log("an error has occured here : ",error);
