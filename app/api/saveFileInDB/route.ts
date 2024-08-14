@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export default async function POST(request: Request) {
+export  async function POST(request: Request) {
   try {
     const { fileName, userClerkId, contentType } = await request.json();
     const newObject = await prisma.object.create({

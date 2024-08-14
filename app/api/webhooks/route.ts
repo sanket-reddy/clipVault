@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     try{
         if (evt.data.id && evt.data.username && evt.data.first_name && evt.data.first_name.length > 0) {
             const newUser  = await prisma.user.create({data : {
-                    userId : evt.data.id,
+                    clerkId : evt.data.id,
                     username : evt.data.username,
                     firstName : evt.data.first_name,
 
