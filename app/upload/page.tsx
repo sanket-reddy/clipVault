@@ -45,7 +45,7 @@ export default function Page(){
                 },
               });
             console.log(resp2.data);
-            resp2 = await axios.post("/api/saveFileDB",{
+            resp2 = await axios.post("/api/saveFileInDB",{
                 fileName,
                 userClerkId : user.id,
                 contentType,
