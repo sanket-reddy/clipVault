@@ -61,7 +61,6 @@ export default function Page(){
     }
     
     return <div className=" mx-4">
-        {/*<Navbar></Navbar>*/}
         <main className="flex flex-col gap-4 w-full items-center justify-center">        
         <Input type="file" onChange={fileAdd} name = "file" className="w-1/2"></Input>
         {file && fileUrl ? (<Image src = {fileUrl} alt= "file" width = {200} height={200}></Image>) : (

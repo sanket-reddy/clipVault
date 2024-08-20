@@ -13,6 +13,8 @@ model User {
   clerkId    String @unique
   username  String @unique
   Objects   Object[]
+  createdAt DateTime @default(now())
+  
   
 } 
 model Object {
@@ -21,6 +23,5 @@ model Object {
   userClerkId    String
   contentType String
   owner   User  @relation(fields: [userClerkId],references: [clerkId],onDelete : Cascade)
-
-
+  createdAt DateTime @default(now())
 }

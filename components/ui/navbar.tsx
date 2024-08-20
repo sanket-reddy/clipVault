@@ -16,7 +16,7 @@ import SearchUser from "@/components/custom/searchUser";
 export default  function Navbar({userId} : {userId: string | null}) {
   return (
 
-    <div className="w-full flex justify-between py-3 items-center">
+    <div className="w-full flex justify-between py-3 ">
       <Link href="/">
         <h1 className="text-2xl font-bold">ClipVault</h1>
       </Link>
@@ -30,7 +30,9 @@ export default  function Navbar({userId} : {userId: string | null}) {
         </div>
       </SignedOut>
       <SignedIn>
+        <div className="h-[100px]">
         <UserButton />
+        </div>
       </SignedIn>
     </div>
   );
