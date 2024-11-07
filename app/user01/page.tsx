@@ -24,8 +24,10 @@ export default async function Page (){
         <h1>user01</h1>
         {objects ? <div>{objects.map((item, index)=>(
             <div key = {index}>
-                <h1>{item.fileName}</h1>
-                <h1>{item.contentType}</h1>
+                <div className="flex justify-between w-full">
+                    <h1>{item.fileName}</h1>
+                    <h1>{item.contentType}</h1>   
+                </div>
             </div>
         ))}</div> : <h1>no user found</h1>}
         
